@@ -58,16 +58,21 @@ const App = () => {
         neutral={neutral}
         setNeutral={setNeutral}/>
       <Header head="statistics"/>
-      <Result 
-        good={good} 
-        bad={bad}
-        neutral={neutral}
-      />
-      <Calculation 
-         good={good} 
-         bad={bad}
-         neutral={neutral}
-      />
+      { (good !== 0 || bad !== 0 || neutral !== 0) 
+        ? <div>
+          <Result 
+            good={good} 
+            bad={bad}
+            neutral={neutral}
+          />
+          <Calculation 
+            good={good} 
+            bad={bad}
+            neutral={neutral}
+          />
+        </div>
+        : <p>No feedback given</p>
+      }
     </div>
   )
 }
