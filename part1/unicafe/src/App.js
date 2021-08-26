@@ -33,6 +33,19 @@ const App = () => {
       </div>
     )
   }
+
+  const Calculation = () => {
+    const all = good + bad + neutral
+    const positive = good *100 / all
+    const average = (good - bad) / all
+    return (
+      <div>
+        <p>all {all}</p>
+        <p>average {average}</p>
+        <p>positive {positive}%</p>
+      </div>
+    )
+  }
   
   return (
     <div>
@@ -40,6 +53,7 @@ const App = () => {
       <Button />
       <Header head="give feedback"/>
       <Result />
+      <Calculation />
     </div>
   )
 }
