@@ -18,18 +18,31 @@ const Button = ({good, setGood, bad, setBad, neutral, setNeutral}) => {
   )
 }
 
+const Statistic = ({text, value}) => {
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>   
+    </tr>
+  )
+}
+
 const StatisticLine = ({good, bad, neutral}) => {
   const all = good + bad + neutral
   const positive = good *100 / all
   const average = (good - bad) / all
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>average {average}</p>
-      <p>positive {positive}%</p>
+      <table>
+        <tbody>
+          <Statistic text="good" value={good}/>
+          <Statistic text="neutral" value={neutral}/>
+          <Statistic text="bad" value={bad}/>
+          <Statistic text="all" value={all}/>
+          <Statistic text="average" value={average}/>
+          <Statistic text="positive" value={`${positive}%`}/>
+        </tbody>
+      </table>
     </div>
   )
 }
