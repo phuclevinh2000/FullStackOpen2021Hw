@@ -9,6 +9,14 @@ const Anecdote = ({anecdote,votes}) => {
   )
 }
 
+const Header = ({value}) => {
+  return (
+    <h1>
+      {value}
+    </h1>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -22,11 +30,13 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes]  = useState(new Uint8Array(7))
+  const [mostVote, setMostVote] = useState(0)
   
   const vote = () => {
     const newVotes = [...votes]   //copy old array into a new one
     newVotes[selected]++
     setVotes(newVotes)
+    if(votes[selected]>=votes[mostVote]) setMostVote(selected)
   }
 
   const next = () => {
@@ -36,14 +46,17 @@ const App = () => {
     }
 
     setSelected(random)
-    
   }
+
   return (
     
     <div>
+      <Header value="Anecdote of the day"/>
       <Anecdote anecdote={anecdotes[selected]} votes={votes[selected]} />
       <button onClick={vote}>Vote</button>
       <button onClick={next}>Next</button>
+      <Header value="Anecdote with most votes"/>
+      <Anecdote anecdote={anecdotes[mostVote]} votes={votes[mostVote]} />
     </div>
   )
 }
