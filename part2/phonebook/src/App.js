@@ -1,16 +1,40 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Header from './components/Header'
+import Form from './components/Form'
+import Filter from './components/Filter'
+
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    { name: 'Arto Hellas',
-      number: "040-1234567" },  //hardcode some name and number
-    { name: 'Ada Lovelace',
-      number: "113"}
-  ]) 
+  const [persons, setPersons] = useState([  //hardcode some name and number
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ filters, setFilters ] = useState('')
+  const [ filterPerson, setFilterPerson ] = useState([])
+
+  const filterChange = (event) => {
+    // console.log(event.target.value)
+    // setFilters(event.target.value)
+    setFilterPerson(persons.filter(person => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
+  }
+
+  // useEffect(() => {
+  //   setFilterPerson(persons.filter(person => person.name.toLowerCase().includes(filters.toLowerCase())))
+  // }, [filters])
+  
+  const handleNameChange = (event) => {
+    // console.log(event.target.value)
+    setNewName(event.target.value)
+  }
+  const handleNumberChange = (event) => {
+    // console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -36,30 +60,22 @@ const App = () => {
     } 
   }
 
-  const handleNameChange = (event) => {
-    // console.log(event.target.value)
-    setNewName(event.target.value)
-  }
-
-  const handleNumberChange = (event) => {
-    // console.log(event.target.value)
-    setNewNumber(event.target.value)
-  }
-
   return (
     <div>
       <Header head="Phonebook"/>
-      <form onSubmit={handleSubmit}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange}/>
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter 
+        filterChange={filterChange}
+        filters={filters}
+        filterPerson={filterPerson}
+      />
+      <Header head="add a new"/>
+      <Form 
+        handleNameChange={handleNameChange} 
+        handleNumberChange={handleNumberChange}
+        handleSubmit={handleSubmit} 
+        newName={newName}
+        newNumber={newNumber}
+      />
       <Header head="Numbers"/>
       {persons.map(person =>      //use map to fetch all the name in persons
         <Note key={person.name} name={person.name} number={person.number}/>
