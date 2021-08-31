@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Note from './components/Note'
 import Header from './components/Header'
 import Form from './components/Form'
@@ -15,18 +15,12 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filters, setFilters ] = useState('')
-  const [ filterPerson, setFilterPerson ] = useState([])
+  // const [ filterPerson, setFilterPerson ] = useState([])
 
   const filterChange = (event) => {
     // console.log(event.target.value)
-    // setFilters(event.target.value)
-    setFilterPerson(persons.filter(person => person.name.toLowerCase().includes(event.target.value.toLowerCase())))
+    setFilters(event.target.value)
   }
-
-  // useEffect(() => {
-  //   setFilterPerson(persons.filter(person => person.name.toLowerCase().includes(filters.toLowerCase())))
-  // }, [filters])
-  
   const handleNameChange = (event) => {
     // console.log(event.target.value)
     setNewName(event.target.value)
@@ -36,6 +30,10 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  let list = filters //create a variable, check if filters exist, if exist then use JS filter, not not then set as persons
+  ? persons.filter(person => person.name.toLowerCase().includes(filters.toLowerCase()))
+  : persons
+  
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -66,7 +64,7 @@ const App = () => {
       <Filter 
         filterChange={filterChange}
         filters={filters}
-        filterPerson={filterPerson}
+        filterPerson={list}
       />
       <Header head="add a new"/>
       <Form 
