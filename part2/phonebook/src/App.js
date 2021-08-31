@@ -17,9 +17,13 @@ const App = () => {
       name: newName
     }
 
-    //copy the new object to the end of the old object
-    setPersons(persons.concat(note))  
-    setNewName('')  //clear the input
+    const check = persons.find(element => element.name === newName) //find the duplicate name
+
+    check ? alert(`${newName} is already added to phonebook`) : 
+      //copy the new object to the end of the old object
+      setPersons(persons.concat(note))  
+      setNewName('')  //clear the input
+    
   }
 
   const handleNoteChange = (event) => {
@@ -39,7 +43,7 @@ const App = () => {
         </div>
       </form>
       <Header head="Numbers"/>
-      {persons.map(person =>      //use map to fetch all the name
+      {persons.map(person =>      //use map to fetch all the name in persons
         <Note key={person.name} name={person.name}/>
       )}
     </div>
