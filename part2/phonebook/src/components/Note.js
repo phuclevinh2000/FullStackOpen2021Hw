@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Note = ({name}) => {
+const Note = ({name, number}) => {
     return (
         <div>
-            {name}
+            {name} {number}
         </div>
     )
 }
