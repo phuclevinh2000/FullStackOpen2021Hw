@@ -1,21 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Note from './components/Note'
 import Header from './components/Header'
 import Form from './components/Form'
 import Filter from './components/Filter'
+import axios from 'axios'
 
 
 const App = () => {
-  const [persons, setPersons] = useState([  //hardcode some name and number
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+  const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filters, setFilters ] = useState('')
-  // const [ filterPerson, setFilterPerson ] = useState([])
+ 
+  useEffect(() => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fullfilled')
+        setPersons(response.data)
+      })
+  }, [])
 
   const filterChange = (event) => {
     // console.log(event.target.value)
