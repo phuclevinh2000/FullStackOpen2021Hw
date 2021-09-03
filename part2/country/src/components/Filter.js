@@ -8,13 +8,21 @@ const Filter = ({filterChange, list, filters}) => {
             find country: <input value={filters} onChange={filterChange}/>
             {
                 filters === "" 
-                ? <CountryName key={"none-data"} name={"Enter country's name to search"}/> 
+                ? <p>Enter country's name to search</p>
                 : list.length > 1 && list.length <=10
                     ? list.map(country =>      
-                        <CountryName key={country.name} name={country.name}/>
+                        <CountryName 
+                            key={country.name} 
+                            name={country.name}
+                            country={country}
+                            capital={country.capital}
+                            population={country.population}
+                            languages={country.languages}
+                            flag={country.flag}
+                        />
                     )
                     : list.length > 10 
-                        ? <CountryName key={"toomuch-data"} name={"Too many matches, specify another filter"}/> 
+                        ? <p>Too many matches, specify another filter</p>
                         : list.map(country =>      
                             <FullCountryInfo 
                                 key={country.name} 

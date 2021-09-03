@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FullCountryInfo = ({name, capital, population, languages, flag}) => {
-    console.log(languages)
+    // console.log(capital)
     return (
         <div>
             <h1>{name}</h1>
