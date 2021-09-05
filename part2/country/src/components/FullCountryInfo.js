@@ -11,7 +11,7 @@ const FullCountryInfo = ({name, capital, population, languages, flag}) => {
             <h1>Language</h1>
             <ul>
                 {languages.map(note => 
-                    <li key={note.id}>
+                    <li key={note.name}>
                         {note.name}
                     </li>
                 )}

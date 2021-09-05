@@ -6,7 +6,7 @@ const api = {
   }
 
 const Weather = ({capital}) => {
-    const [weather, setWeather] = useState([])
+    const [weather, setWeather] = useState('')
 
     //fetch data from API
     useEffect(() => {
@@ -18,6 +18,7 @@ const Weather = ({capital}) => {
             })
     }, [capital])
 
+    if(weather){
     return (
         <div>
             <h1>Weather in {capital}</h1>
@@ -25,7 +26,11 @@ const Weather = ({capital}) => {
             <img src={weather.current.weather_icons} alt="#"/>
             <p><strong>wind:</strong> {weather.current.wind_speed} mph direction {weather.current.wind_dir}</p>
         </div>
-    )
+    )} else {
+        return (
+            <div></div>
+        )
+    }
 }
 
 export default Weather

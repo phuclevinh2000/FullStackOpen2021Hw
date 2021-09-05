@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Weather from './Weather'
 
 const CountryName = ({name, country}) => {
     
@@ -24,12 +25,13 @@ const CountryName = ({name, country}) => {
                         <h1>Language</h1>
                         <ul>
                             {country.languages.map(note => 
-                                <li key={note.id}>
+                                <li key={note.name}>
                                     {note.name}
                                 </li>
                             )}
                         </ul>
                         <img src={country.flag} alt="flag"></img>
+                        <Weather capital={country.capital}/>
                     </div>
                 : null  //if false then dont display
             }
