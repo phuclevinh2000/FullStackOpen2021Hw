@@ -13,7 +13,7 @@ const CountryName = ({name, country}) => {
             {name}
             <button type="submit" value={country} onClick={onClick}>
                 {
-                    showResults ? "hide" : "show"   //display the button content
+                    showResults ? "hide" : "show"   //display the button content                                                    
                 }
             </button>
             { showResults //if button is clicked, showResult True then display
