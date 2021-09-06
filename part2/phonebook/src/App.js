@@ -48,12 +48,11 @@ const App = () => {
       number: newNumber
     }
 
-    axios.post('http://localhost:3001/persons')
+    axios.post('http://localhost:3001/persons', note)
 				.then(response=>{
 					setPersons(persons.concat(note))
 					setNewName(' ')
 					setNewNumber(' ')
-          console.log(note)
 				})	
 
     const check = persons.find(element => element.name === newName) //find the duplicate name
