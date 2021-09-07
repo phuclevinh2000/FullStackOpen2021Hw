@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import axios from 'axios'
+import personsService from './services/persons'
 
 
 const App = () => {
@@ -13,12 +14,10 @@ const App = () => {
   const [ filters, setFilters ] = useState('')
  
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fullfilled')
-        setPersons(response.data)
+    personsService
+      .getAll()
+      .then(initialNotes => {
+        setPersons(initialNotes)
       })
   }, [])
 
@@ -48,12 +47,13 @@ const App = () => {
       number: newNumber
     }
 
-    axios.post('http://localhost:3001/persons', note)
-				.then(response=>{
-					setPersons(persons.concat(note))
-					setNewName(' ')
-					setNewNumber(' ')
-				})	
+    personsService
+      .create(note)
+      .then(initialNotes => {
+        setPersons(persons.concat(initialNotes))
+        setNewName('')
+        setNewNumber('')
+      })	
 
     const check = persons.find(element => element.name === newName) //find the duplicate name
 
