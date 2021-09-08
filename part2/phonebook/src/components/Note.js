@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Note = ({name, number}) => {
+const Note = ({name, number, handleDelete, id}) => {
     return (
         <div>
-            {name} {number}
+            {name} {number} <button onClick={() => handleDelete(id, name)}>delete</button>
         </div>
     )
 }

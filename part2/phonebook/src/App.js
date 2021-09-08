@@ -3,7 +3,6 @@ import Note from './components/Note'
 import Header from './components/Header'
 import Form from './components/Form'
 import Filter from './components/Filter'
-import axios from 'axios'
 import personsService from './services/persons'
 
 
@@ -12,7 +11,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filters, setFilters ] = useState('')
- 
+
   useEffect(() => {
     personsService
       .getAll()
@@ -45,29 +44,55 @@ const App = () => {
     const note = {
       name: newName,
       number: newNumber
-    }
+    }	
 
-    personsService
-      .create(note)
-      .then(initialNotes => {
-        setPersons(persons.concat(initialNotes))
-        setNewName('')
-        setNewNumber('')
-      })	
-
+    
     const check = persons.find(element => element.name === newName) //find the duplicate name
 
     // console.log(note.name)
     if(note.name === "" || note.number === "") {  //check if name and number is missing 
       alert("missing name or number")
     } else {
-      check //check if "check is found"
-        ? alert(`${newName} is already added to phonebook`)  //if found then alert
-        : setPersons(persons.concat(note))  //copy the new object to the end of the old object
-
+      if(check) { //check if "check is found"
+        if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {  //if found then ask if you want to replace the old content: ;
+          const id = persons.find(element => element.name === newName).id
+          personsService
+            .update(id, note)
+            .then(personAfterUpdate => {
+              const newPerson = persons.map(note => note.id !== id ? note : personAfterUpdate)
+              setPersons(newPerson)
+            })
+          .catch(error => {
+            alert("The new information has been updated")
+          })
+        }
+      }
+      else  {
+        personsService
+        .create(note)
+        .then(initialNotes => {
+          setPersons(persons.concat(initialNotes))
+          setNewName('')
+          setNewNumber('')
+        })
+        setPersons(persons.concat(note))  //copy the new object to the end of the old object
+      }
       setNewName('')  //clear the input
       setNewNumber('') 
     } 
+  }
+
+  const handleDelete = (id, name) => {
+    const findPersonId =  id;
+    
+    // console.log(name)
+    if (window.confirm(`Delete ${name}`)) {
+      personsService
+        .remove(findPersonId)
+        .then(response => {
+          setPersons(persons.filter(person => person.id!==id))
+        })
+    }
   }
 
   return (
@@ -88,7 +113,7 @@ const App = () => {
       />
       <Header head="Numbers"/>
       {persons.map(person =>      //use map to fetch all the name in persons
-        <Note key={person.name} name={person.name} number={person.number}/>
+        <Note key={person.id} id={person.id} name={person.name} number={person.number} handleDelete={handleDelete}/>
       )}
     </div>
   )
