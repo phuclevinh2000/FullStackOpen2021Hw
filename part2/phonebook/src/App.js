@@ -4,13 +4,17 @@ import Header from './components/Header'
 import Form from './components/Form'
 import Filter from './components/Filter'
 import personsService from './services/persons'
-
+import Notification from './components/Notification'
+import FailNotification from './components/FailNotification'
+import "./index.css"
 
 const App = () => {
   const [persons, setPersons] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filters, setFilters ] = useState('')
+  const [ noti, setNoti ] = useState('')
+  const [ failNoti, setFailNoti] = useState('')
 
   useEffect(() => {
     personsService
@@ -63,7 +67,11 @@ const App = () => {
               setPersons(newPerson)
             })
           .catch(error => {
-            alert("The new information has been updated")
+            // alert("The new information has been updated")
+            setFailNoti(`Information of ${note.name} has already been removed from server, please refresed the page to see the change`)
+            setTimeout(() => {            //clear the notification after 5 seconds
+              setFailNoti(null)
+            }, 5000)
           })
         }
       }
@@ -72,9 +80,14 @@ const App = () => {
         .create(note)
         .then(initialNotes => {
           setPersons(persons.concat(initialNotes))
-          setNewName('')
+          setNewName('')  //clear the input
           setNewNumber('')
+          setNoti(`Added ${note.name}`) //set the notification  box
+          setTimeout(() => {            //clear the notification after 5 seconds
+            setNoti(null)
+          }, 5000)
         })
+       
         setPersons(persons.concat(note))  //copy the new object to the end of the old object
       }
       setNewName('')  //clear the input
@@ -98,6 +111,12 @@ const App = () => {
   return (
     <div>
       <Header head="Phonebook"/>
+      {
+        noti ? <Notification message={noti}/> : null  //display the notification if added info
+      }
+      {
+        failNoti ? <FailNotification message={failNoti}/> : null  //display the fail notification if added info
+      }
       <Filter 
         filterChange={filterChange}
         filters={filters}
