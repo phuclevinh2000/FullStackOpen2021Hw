@@ -32,9 +32,11 @@ if(process.argv[3]) {
     mongoose.connection.close()
   })
 } else {
+  console.log("phonebook:")
   Phonebook.find({}).then(result => {
     result.forEach(phone => {
-      console.log(phone)
+      var output = `${phone.name} ${phone.number}`
+      console.log(output)
     })
     mongoose.connection.close()
   })
